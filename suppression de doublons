@@ -1,0 +1,45 @@
+public class doublons
+{
+
+	public static void saisie(int [] tab,int size)
+        {
+            for(int i=0;i<size;i++)
+            {
+		System.out.print("\tT["+(i+1)+"]: ");
+		tab[i]=(new Scanner(System.in)).nextInt();
+	    }
+	}
+	public static void nbDoublons(int [] tab,int size)
+        {
+            int j=0;
+            for(int i=0;i<size-1;i++)
+            {
+		if(tab[i]==tab[i+1])
+                {
+                    for(j=i+1;j<(size-1);j++)
+                    {
+			tab[j]=tab[j+1];
+                    }
+                    size--;
+		}
+            }
+            System.out.println("&\nREMOVE DOUBLONS");
+	    affiche(tab, size);
+	}
+	public static void affiche(int [] tab,int size)
+        {
+            for(int i=0;i<size;i++){
+	    System.out.print(tab[i]+" ");
+	}
+    }
+    public static void main(String[] args) 
+    {
+	int [] t=new int[6];
+	System.out.println("\tSAISIE TAB");
+	saisie(t, 6);
+	System.out.println("\tTAB SAISIE");
+	affiche(t, 6);
+	nbDoublons(t, 6);
+    }
+
+}
