@@ -1,0 +1,45 @@
+public class LCM 
+{
+    public static void saisie(int [] tab,int size)
+    {
+	      for(int i=0;i<size;i++)
+        {
+            System.out.print("\tT["+(i+1)+"]: ");
+	          tab[i]=(new Scanner(System.in)).nextInt();
+	      }
+    }
+    public static void affiche(int [] tab,int size)
+    {
+	      for(int i=0;i<size;i++)
+        {
+            System.out.print(tab[i]+" ");
+	      }
+    }
+    public static int LCM(int[] a,int size)
+    {
+	      int res=1;
+	      for(int i=0;i<size;i++)
+        {
+            System.out.println(res);
+            res=res*a[i]/PGCD(res,a[i]);
+	      }
+	    return res;
+    }
+    public static int PGCD(int a,int b)
+    {
+	    if(b==0)
+	    return a;
+	    return PGCD(b, a%b);
+    }
+    public static void main(String[] args) 
+    {
+	    System.out.println("LE LCM: "+PGCD(5, 5));
+	    int N;
+	    System.out.print("La taile du tab: ");
+	    N=(new Scanner(System.in)).nextInt();
+	    int []t=new int[N];
+	    saisie(t, N);
+	    affiche(t, N);
+	    System.out.println("\nLE LCM: "+LCM(t, N));
+    }
+}
