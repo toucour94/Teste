@@ -1,0 +1,160 @@
+class CNoeud
+{
+	// attributs
+	CNoeud *pt_gauche, *pt_droit;
+	Entier val_donnee;
+	
+publique:
+	// constructeur
+	CNoeud (Entier nb)
+	{
+		val_donnee = nb;
+		pt_gauche = NULL;
+		pt_droit = NULL;
+	};
+	// destructeur
+	~CNoeud() {}
+	
+	// autres metodes
+	vide change_gauche(CNoeud *pt) {this->pt_gauche = pt;}
+	vide change_droit(CNoeud *pt){this->pt_droit = pt;}
+	vide Change_valeur(int _valeur){this->val_donnee = _valeur;}
+	CNoeud *gauche() {return this->pt_gauche;}
+	CNoeud *droit() {return this->pt_droit;}
+	Entier valeur() {return this->val_donnee;}
+	vide supprime_noeud ();
+};
+// ..... classe arbre .....
+class CArbre
+{
+	// attributs
+	CNoeud *racine;
+public:
+	// constructeur
+	CArbre() {racine = NULL;}
+	
+	//destructeur
+	~CArbre () {racine->supprime_noeud();}
+	
+	// autres methodes
+	CNoeud *val_racine() {return racine;}
+	vide insertion_noeud (int nombre);
+	CNoeud *recherche_arbre(int nombre);
+	vide ParcoursInfixe (CNoeud *noeud_courant);
+	vide ParcoursInfixeInverse (CNoeud *noeud_courant);
+};
+
+// ..... methodes supprime_noeud ......
+vide CNoeud::supprime_noeud()
+{
+	si(cette->gauche() != NULL) (cette->gauche()->supprime_noeud());
+	si(cette->droit() != NULL) (cette->droit())->supprime_noeud();
+	supprime cette;
+}
+// ..... Mehode insertion_noeud 
+vide CArbre::insertion_noeud (int nombre)
+{
+	// creation d'un nouveau noeud
+	CNoeud *nouveau_noeud = nouveaux CNoeud (nombre);
+	si(racine == NULL) // Le nouveau noeud est la racine de l'arbre
+	{
+		racine = nouveau_noeud;
+		Ecrire("\n...%4d : racine ...\n", racine->valeur());
+	}
+	sinon // on parcourt l'arbre pour trouver la position de l'insertion
+	{
+		CNoeud *noeud_courant = racine;
+		tantque (noeud_courant != NULL)
+			si (nouveau_noeud->valeur() < noeud_courant->valeur())
+			{
+				si (noeud_courant->gauche() == NULL)
+				{
+					Ecrire("...%4d : fils gauche de", nouveau_noeud->valeur());
+					Ecrire("...%4d : ...\n", noeud_courant->valeur());
+					noeud_courant->change_gauche(nouveau_noeud);
+					noeud_courant = NULL;
+				}
+				sinon 
+					noeud_courant = noeud_courant->gauche();
+			
+			}
+			sinon
+			{
+				si (noeud_courant->droit() == NULL)
+				{
+					Ecrire("...%4d : fils droit  de", nouveau_noeud->valeur());
+					Ecrire("...%4d : ...\n", noeud_courant->valeur());
+					noeud_courant->change_droit(nouveau_noeud);
+					noeud_courant = NULL;
+				}
+				sinon
+					noeud_courant = noeud_courant->droit();
+			}
+	}
+}
+// .... Procedure de recherche d'un noeud ....
+CNoeud *CArbre::recherche_arbre(int nombre)
+{
+	CNoeud *noeud_trouve = NULL, *noeud_courant = racine;
+	tantque (noeud_courant != NULL)
+	{
+		si (noeud_courant->valeur() == nombre)
+		{
+			noeud_trouve = noeud_courant;
+			noeud_courant = NULL;
+		}
+		sinon si (nombre < noeud_courant->valeur())
+			noeud_courant = noeud_courant->gauche();
+		sinon
+			noeud_courant = noeud_courant->droit();
+	}
+	return noeud_trouve;
+}
+// .... Parcours Infixe ....
+vide CArbre::ParcoursInfixe (CNoeud *noeud_courant)
+{
+	si (noeud_courant != NULL)
+	{
+		ParcoursInfixe (noeud_courant->gauche());
+		Ecrire("%4d ", noeud_courant->valeur());
+		ParcoursInfixe (noeud_courant->droit());
+	}
+}
+// ... Parcours Infixe inverse ....
+vide CArbre::ParcoursInfixeInverse (CNoeud *noeud_courant)
+{
+	si (noeud_courant != NULL)
+	{
+		ParcoursInfixeInverse (noeud_courant->droit());
+		Ecrire("%4d ", noeud_courant->valeur());
+		ParcoursInfixeInverse (noeud_courant->gauche());
+	}
+}
+// .... Programme principal ....
+pricipal()
+{
+	CArbre Arbre;
+	Ecrire("Entrer une suite nde valeurs entieres terminee par -1 :\n");
+	// .... construction de l'arbre de recherche ....
+	// on boucle TANT QUE la fin de ligne n'est pas atteinte
+	int nb = 0;
+	tantque (nb != -1)
+	{
+		Lire(nb);
+		si (nb != -1) Arbre.insertion_noeud(nb);
+	}
+	// .... recherche d'une valeur dans l'arbre ....
+	Ecrire("\nEntrer une valeur a rechercher : ");
+	Lire   (nb);
+	CNoeud *noeud_recherche = Arbre.recherche_arbre(nb);
+	si (noeud_recherche != NULL) Ecrire("%d trouvee\n",nb);
+	sinon Ecrire("%d non trouve\n",nb);
+	// .... Affichage des donnee triees ....
+	// .... Par un infixe               ....
+	Ecrire("Affichage des donnee triees:\n");
+	Arbre.ParcoursInfixe (Arbre.val_racine());
+	Ecrire("\n");
+	Ecrire("Affichage du tri inverse:\n");
+	Arbre.ParcoursInfixeInverse (Arbre.val_racine());
+	Ecrire("\n");
+}
