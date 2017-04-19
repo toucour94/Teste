@@ -1,0 +1,59 @@
+public class FINDECHAINE 
+{
+    
+    public static String findChaineNN(String a,String b)
+    {
+	      String ret="";
+	      for(int i=0;i<a.length();i++)
+        {
+            for(int j=0;j<b.length();j++)
+            {
+                if(i==j)
+                {
+                    ret+=a;
+                }
+            }
+	      }
+	      return ret;
+    }
+	  public static String findChaineN(String a,String b)
+    {
+        String ret="";
+        for(int i=0;i<a.length();i++)
+        {
+            for(int j=0;j<b.length();j++)
+            {
+                if(i==j)
+                {
+                    ret+=b;
+                }
+            }
+        }
+        return ret;
+	  }
+    public static String findChaine(String[] a,String []b)
+    {
+        String ret="";
+        for(int i=0;i<a.length;i++)
+        {
+            for(int j=0;j<b.length;j++)
+            {
+                if(a[i]==b[j])
+                {
+                    ret+=a[i];
+                }
+            }
+        }
+        return ret;
+    }
+    public static void main(String[] args) 
+    {
+	      String a[]=new String[]{"Thierno","Issa","Diallo","Balde"};
+	      String b[]=new String[]{"Diallo","Issa","Balde","Thierno"};
+        System.out.println("Chaine : "+findChaine(a, b));
+	      System.out.println("N * N  : "+findChaineNN("Thierno ", "Issa"));
+	      System.out.println("N      : "+findChaineN("Thierno ", "Issa"));
+    }
+    
+}
+
